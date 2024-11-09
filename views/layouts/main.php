@@ -36,23 +36,22 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <header id="header">
     <?php
     NavBar::begin([
-        'brandLabel' => '
-ToXSL Technologies',
+        'brandLabel' => 'ToXSL Technologies',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
+        'options' => ['class' => 'navbar-nav'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
             Yii::$app->user->isGuest
                 ? ['label' => 'Signup', 'url' => ['/user/signup']]
-                : (Yii::$app->user->identity->role === 'admin'
-                    ? ['label' => 'User List', 'url' => ['/dashboard/index']] // Admins see the user list
-                    : (Yii::$app->user->identity->role === 'manager'
-                        ? ['label' => 'Projects', 'url' => ['/project/index']] // Managers see the projects
-                        : [])
-                ),
+                : [
+                    'label' => Yii::$app->user->identity->role === 'admin' ? 'User List' : (Yii::$app->user->identity->role === 'manager' ? 'Manager Dashboard' : 'Dashboard'),
+                    'url' => Yii::$app->user->identity->role === 'admin' ? ['/dashboard/index'] : ['/site/index']
+                ],
+      
             Yii::$app->user->isGuest
                 ? ['label' => 'Login', 'url' => ['/user/login']]
                 : '<li class="nav-item">'
